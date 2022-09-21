@@ -1,0 +1,273 @@
+Usuarios
+    Id
+    
+    Nombre
+    Middle Name ***
+    Apellido1
+    Apellido2 **
+    
+    Teléfono
+    email - login
+    
+    Contraseña
+    
+    Fecha nacimiento
+    DNI     ? 
+    
+    Dirección
+        Direccion(es) envío
+            Calle, Número, Piso, puerta, portal, escalera ,CP, Municipio, Provincia, Pais ****
+        Dirección de facturación
+    
+    Datos Pago
+        Tarjeta--- Número, Fecha...
+        Paypal
+        Bizum
+    
+Carrito de la compra
+    User_id
+    Descuento: código promocional
+               código reembolso
+               puntos
+    [ ProductoId    Fecha   Cantidad ]
+
+
+
+BBDD -> Dpto BI -> Cuantos clientes tengo por provincia y las compras que hacen......
+    MONGO ----> ETL ----> Datalake (DatawareHouse) <--- BI
+    
+    
+    
+Usuario -< Direcciones
+        -< Tarjetas
+        -< Bizums
+        -< Paypal
+        -< ProductosEnCarrito
+        -< DescuentosCarrito
+        
+        7 tablas. Queries: SQL 1 query? SE PUEDE... DESPARRAME
+                Usuario + Direcciones + Bizum + .... 7 queries
+    
+    
+    
+Log... accesos
+
+Productos
+
+Compras
+
+---
+PL/SQL -> Programa en la BBDD
+---
+Lógica en la BBDD
+---
+
+Chequeo DNI (Formulario de la APP)--> BBDD
+        No mandar basura a la BBDD     Chequeo Lógica de Datos
+        Y me escupa a la cara !!!!
+        
+        
+----
+
+# CARRITO DE LA COMPRA 
+
+{
+    "user_id": 19283728274,
+    "discounts": [
+    ],
+    "products": [
+        {
+            "product_id": 182736382673,
+            "quantity": 17,
+            "date": 
+        },
+    ]
+}
+---
+Carrito_Luis.yaml
+
+Carrito de la compra:
+    User_id:   Luis
+    Descuento: 
+        - tipo: código promocional-Black friday: 5%
+          importe: 5%
+        - tipo: reembolso
+          importe: 15€
+    productos:
+        - product_id: destornillador phillips grande
+          cantidad: 2
+          fecha: 10-abril
+        - product_id: tornillos de madera cabeza phillips grande
+          cantidad: 205000
+          fecha: 11-abril
+---
+
+Carrito_Luis.json
+
+// Esquema de validación
+{
+    "_id":   18274628264,
+    "discount": 
+        [
+            {
+                "tipo": "código promocional-Black friday",
+                "importe": "5%"
+            },
+            {
+                "tipo": "reembolso",
+                "importe": 15
+            }
+         ],
+    "products":
+        [
+            {
+                "product_id": 98237982379,
+                "cantidad": 2,
+                "date": "10-abril"
+            },
+            {
+                "product_id": 981209289,
+                "cantidad": 200,
+                "date": "11-abril"
+            }
+        ]
+}
+// Dia 1 de desarrollo??? No crear un esquema de validación... Y DESARROLLO
+// Ya veré que campos voy necesitando... y tiro cosas....
+// Y cuando lo tengo listo, genero un esquema que cumpla con lo que quiero
+
+---
+ORACLE: 
+
+Users: ID   Nombre
+        1   Ivan
+        
+Productos en carrito
+    ID USUARIO          ID PRODUCTO             FECHA       CANTIDAD
+        1                   17                  11-abril       200
+        1                   27                  10-abril       2
+        
+Descuentos en carrito
+    ID USUARIO          ID DESCUENTO            CANTIDAD_ABSOLUTA.      CANTIDAD RELATIVA
+        1                   17                                                  5%
+        1                   27                          15€
+---    
+Nombre      Product_id      Cantidad        Fecha       Descuento_id        Cantidad_absoluta   Cantidad relativa    
+Ivan            17              200         11-abril        17                  -                   5%
+Ivan            17              200         11-abril        27                  15€
+Ivan            27              2           10-abril        17                  -                   5%
+Ivan            27              2           10-abril        27                  15€
+---
+SELECT
+    Nombre
+FROM 
+    Users
+WHWRE
+    Id=1;
+---
+QUERY PRODUCTOS
+SELECT 
+    Users.Nombre,
+    Productos.Product_id,
+    Productos.Cantidad,
+    Productos.Fecha,
+
+FROM
+    Users
+    INNER JOIN Productos ON Users.id=Productos.User_id
+WHERE 
+    User.Id=1;
+
+ Product_id      Cantidad        Fecha       
+    17              200         11-abril    
+    27              2           10-abril    
+---
+QUERY DESCUENTOS
+SELECT 
+    Users.Nombre,
+    Descuentos.Descuento_id,
+    Descuentos.Cantidad_absoluta,
+    Descuentos.Cantidad_relativa,
+FROM
+    Users
+    INNER JOIN Descuentos ON Users.id=Descuentos.User_id
+WHERE 
+    User.Id=1;
+
+Descuento_id        Cantidad_absoluta   Cantidad relativa    
+    17                  -                   5%
+    27                  15€
+
+---
+SELECT 
+    Users.Nombre,
+    Productos.Product_id,
+    Productos.Cantidad,
+    Productos.Fecha,
+    Descuentos.Descuento_id,
+    Descuentos.Cantidad_absoluta,
+    Descuentos.Cantidad_relativa,
+    
+FROM
+    Users
+    INNER JOIN Productos ON Users.id=Productos.User_id
+    INNER JOIN Descuentos ON Users.id=Descuentos.User_id
+WHERE 
+    User.Id=1;
+
+---
+SELECT 
+    Users.Nombre,
+    Productos.Product_id,
+    Productos.Cantidad,
+    Productos.Fecha,
+    Descuentos.Descuento_id,
+    Descuentos.Cantidad_absoluta,
+    Descuentos.Cantidad_relativa,
+FROM
+    Users,
+    Productos,
+    Descuentos
+WHERE
+    Users.id=Productos.User_id and 
+    Users.id=Descuentos.User_id and
+    User.Id=1;
+
+
+
+    Navegador                     Servicio carrito                Mongo   
+    programa JS      ----->  17 ----->       --------> 17------> JSON_17
+     Angular         <----------------       <-----------------
+     Vue
+     React
+    
+    JSON (datos) ---> HTML
+    Programa
+
+    App iOS telepi
+     programa SWIFT 
+              Objective-C
+    
+    App android telepi
+     programa 
+        JAVA
+        Kotlin
+    JSON (datos) --> Objetos pantalla de telefono
+    
+                                Servicios relacionados con el carrito de la compra:
+                                    Añadir item
+                                    Modificar Item
+                                    Eliminar Item
+                                    Recuperar Carrito
+                        
+                        API REST!
+                            https://dominos.es/api/v2/carrito/17
+                                    GET
+                            https://dominos.es/api/v2/carrito/17
+                                    POST
+                                        {productid, cantidad}
+                            https://dominos.es/api/v2/carrito/17/2
+                                    DELETE
+                            https://dominos.es/api/v2/carrito/17/2
+                                    PUT
+                                        {cantidad}

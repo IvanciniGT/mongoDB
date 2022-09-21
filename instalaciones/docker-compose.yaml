@@ -12,7 +12,7 @@ services:
             #- MONGO_INITDB_ROOT_PASSWORD=password
             MONGO_INITDB_ROOT_USERNAME: usuario
             MONGO_INITDB_ROOT_PASSWORD: password
-            
+
     mongo-express:
         image: mongo-express:latest
         container_name: mimongoexpress

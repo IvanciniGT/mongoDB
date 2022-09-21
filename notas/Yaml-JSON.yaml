@@ -1,0 +1,132 @@
+# YAML engloba la especificación de JSON
+# Cualquier documento JSON, por definición también es un documento YAML
+
+Lenguaje de marcado de información. Especificación 1.2
+---
+Un documento en YAML es un Nodo:
+Escalares: Un único valor
+De colección: Multiples nodos
+---
+Nodos escalares: 
+---
+Números
+---
+3
+---
+3.98
+---
+-6
+---
+Valores lógicos: booleanos
+---
+true # True TRUE
+---
+false   # False FALSE
+---
+Textos
+---
+"Esto\" es' un #texto"
+---
+'Esto" es'' un #texto'
+---
+Esto" es' un #texto
+---
+Nodos de colección: 
+---
+Listas ordenadas # Array, Vector
+# Colección ordenada de nodos, donde cada nodo va precedido de un guión y al menos 1 blanco.
+# Los elementos se identifican por su posición dentro de la lista
+---
+- 3
+- 5
+- 9
+---
+[3, 5, 9]
+---
+- 12
+- Hola
+- True
+-       - item 1             
+        - item 2
+        - item 3
+- - Otra lista
+  - 33
+---
+[12, "Hola", true, ["item1", "item2", "item3"], ["Otra lista", 33]]
+---
+[
+  12, 
+  "Hola", 
+  true, 
+  [
+    "item1", 
+    "item2", 
+    "item3"
+  ], 
+  [
+    "Otra lista", 
+    33
+  ]
+]
+---
+Mapas desordenados # Tabla hash, diccionario. Conjunto de pares: claves - valor
+# Colección de nodos, cada uno precedido por un identificador
+---
+nombre: Ivan
+primer apellido: Osuna
+segundo apellido: Ayuste
+---
+segundo apellido: Ayuste
+primer apellido: Osuna
+nombre: Ivan
+---
+{segundo apellido: Ayuste, primer apellido: Osuna, nombre: Ivan, edad: 44}
+---
+primer apellido: Osuna
+segundo apellido: Ayuste
+nombre: Ivan
+edad: 44
+carnet conducir: true
+idiomas que habla:
+  - español
+  - inglés
+  - francés
+nivel de idiomas:
+  español: alto
+  inglés: alto
+  francés: medio
+---
+{"segundo apellido": "Ayuste", "primer apellido": "Osuna", "nombre": "Ivan", 
+"edad": 44, "carnet conducir": true }
+# Es un documento JSON
+# JS Object Notation
+--- # JSON
+{
+  "segundo apellido": "Ayuste", 
+  "primer apellido": "Osuna", 
+  "nombre": "Ivan", 
+  "edad": 44, 
+  "carnet conducir": true 
+}
+--- # YAML
+primer apellido: Osuna
+segundo apellido: Ayuste
+nombre: Ivan
+edad: 44
+carnet conducir: true
+---
+MongoDB: Base de datos NoSQL, orientada a documentos.
+                       Not only SQL
+ElasticSearch: Indexador, que se puede usar como BBDD NoSQL orientada a 
+               documentos JSON en algunos escenarios. Búsquedas full text
+
+---
+Adabas? NoSQL - Jerárquica
+Neo4J? De grafos - Facebook
+---
+Qué entiendo por un documento en MongoDB?
+Word? NO
+---
+En mongoDB lo que guardamos son documentos JSON
+---
+Docker
