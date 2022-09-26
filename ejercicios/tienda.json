@@ -48,10 +48,24 @@ Usuario -< Direcciones
         7 tablas. Queries: SQL 1 query? SE PUEDE... DESPARRAME
                 Usuario + Direcciones + Bizum + .... 7 queries
     
-    
+{
+    user_id:
+    fecha_acceso: 
+}    
+       
+{
+    user_id:
+    fecha_acceso: 
+    fecha_desconexion:
+}    
     
 Log... accesos
-
+Usuario, fecha,..... 
+    INSERCIONES
+    CONSULTA?  Tirando a ninguna
+    MODIFICACIONES. NINGUNA !
+    BORRADOS? En lote si acaso por las noches 
+    
 Productos
 
 Compras
@@ -88,8 +102,8 @@ Carrito_Luis.yaml
 
 Carrito de la compra:
     User_id:   Luis
-    Descuento: 
-        - tipo: código promocional-Black friday: 5%
+    Descuentos: 
+        - tipo: código promocional-Black friday
           importe: 5%
         - tipo: reembolso
           importe: 15€
@@ -271,3 +285,52 @@ WHERE
                             https://dominos.es/api/v2/carrito/17/2
                                     PUT
                                         {cantidad}
+
+
+----
+
+Tarjetas
+RED            Tipo_Id  Número                      Alternativa-TIPO
+VISA            1       7878967868967896            1
+MASTERCARD      2       67896789697678786           2
+
+TipoTarjeta
+Id  
+1   
+2   
+3   
+4   
+5
+6
+7
+8
+9
+10
+INSERT
+
+SI      x
+NO      xxxx
+
+Beneficios? 
+- Validación.... que no entre un tipo de tarjeta no válido
+- Listado: Sacar los nombres de los tipos de tarjeta
+Contras?
+- JOIN-Query (No tanto el performance... al escribirla)
+
+Alternativa-TIPO?
+- Validación? Seguro? Constrain? ALTER CONSTRAIN
+- Listado? Quiero el nombre? de verdad? como resultado de la query? 
+Español
+Inglés
+Francés
+
+
+Bizum
+
+Paypales
+
+
+----
+Ágiles
+
+Projects
