@@ -63,12 +63,12 @@ db.createCollection("personas",{
 // Hemos creado una colección implicitamente.... Al usarla... pero ésto no nos da opción de configurar.
 db.personas.insertOne(
 {
-    "nombre": "Pepin",
-    "apellidos": 2,
+    "nombre": "Trini",
+    "apellidos": "García",
     "edad": 34,
     "fecha nacimiento": ISODate("1978-08-27"),
     "email": "ivan@ivan.com",
-    "edad hermano mayor": 40
+    "edad hermano mayor": 23
 }
 );
 
@@ -80,46 +80,69 @@ db.runCommand(
 { 
     collMod: "personas" ,
     "validator": {
-        $jsonSchema: {
-            bsonType: "object", // Un documento
-            required: [
-                "nombre",
-                "edad",
-                "email",
-                "edad hermano mayor"
-            ],
-            properties: {
-                nombre: {
-                    bsonType: "string",
-                    description: "Campo requerido indicando el nombre del usuario",
-                    // Validaciones
-                    minLength: 2        // maxLength
+        // Tipo de validación que se asegura de que una Expresión SE CUMPLE !
+        $and: [
+                {
+                    $expr:{
+                        // https://www.mongodb.com/docs/manual/reference/operator/query/
+                        $lt: ["edad", "edad hermano mayor"]
+                        // $gt
+                        // $gte
+                        // $lte
+                        // $in 
+                        // $nin 
+                        // $ne
+                        // $eq
+                        // $exists
+                        // $type
+                        //personas.edad < personas.edad_hermano_mayor
+                    }
+                
                 },
-                edad: {
-                    bsonType: "int", // 32 bits = 4 bytes: Algo más de 4 mil millones 2^32
-                    minimum: 0,
-                    maximum: 150,
-                    description: "Campo requerido indicando la edad del usuario, entre 0 y 150, incluidos"
-                },
-                email: {
-                    bsonType: "string",
-                    pattern: "^[A-Za-z0-9._-]+@[A-Za-z0-9._-]+[.][A-Za-z0-9]{0,5}$",
-                    description: "El email es obligatorio y debe ser válido"
-                },
-                apellidos: {
-                    bsonType: "string"
-                },
-                "fecha nacimiento": {
-                    bsonType: "date"
-                },
-                "edad hermano mayor": {
-                    bsonType: "int",
-                    minimum: 0,
-                    maximum: 150,
-                    description: "Campo requerido indicando la edad del hermano mayor del usuario, entre 0 y 150, incluidos"
+                // tipo de validación que comprueba que el documento cumple con un esquema!
+                {
+                $jsonSchema: { 
+                    bsonType: "object", // Un documento
+                    required: [
+                        "nombre",
+                        "edad",
+                        "email",
+                        "edad hermano mayor"
+                    ],
+                    properties: {
+                        nombre: {
+                            bsonType: "string",
+                            description: "Campo requerido indicando el nombre del usuario",
+                            // Validaciones
+                            minLength: 2        // maxLength
+                        },
+                        edad: {
+                            bsonType: "int", // 32 bits = 4 bytes: Algo más de 4 mil millones 2^32
+                            minimum: 0,
+                            maximum: 150,
+                            description: "Campo requerido indicando la edad del usuario, entre 0 y 150, incluidos"
+                        },
+                        email: {
+                            bsonType: "string",
+                            pattern: "^[A-Za-z0-9._-]+@[A-Za-z0-9._-]+[.][A-Za-z0-9]{0,5}$",
+                            description: "El email es obligatorio y debe ser válido"
+                        },
+                        apellidos: {
+                            bsonType: "string"
+                        },
+                        "fecha nacimiento": {
+                            bsonType: "date"
+                        },
+                        "edad hermano mayor": {
+                            bsonType: "int",
+                            minimum: 0,
+                            maximum: 150,
+                            description: "Campo requerido indicando la edad del hermano mayor del usuario, entre 0 y 150, incluidos"
+                        }
+                    }
                 }
             }
-        }
+        ]
     }
 })
 
