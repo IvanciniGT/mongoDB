@@ -63,12 +63,12 @@ db.createCollection("personas",{
 // Hemos creado una colección implicitamente.... Al usarla... pero ésto no nos da opción de configurar.
 db.personas.insertOne(
 {
-    "nombre": "Trini",
+    "nombre": "Juani",
     "apellidos": "García",
     "edad": 34,
     "fecha nacimiento": ISODate("1978-08-27"),
     "email": "ivan@ivan.com",
-    "edad hermano mayor": 23
+    "edad hermano mayor": 56
 }
 );
 
@@ -85,7 +85,7 @@ db.runCommand(
                 {
                     $expr:{
                         // https://www.mongodb.com/docs/manual/reference/operator/query/
-                        $lt: ["edad", "edad hermano mayor"]
+                        $lt: ["$edad", "$edad hermano mayor"]
                         // $gt
                         // $gte
                         // $lte
@@ -151,3 +151,18 @@ db.runCommand(
 // Que pasaría si modifico un esquema en una colección?
 // Lo que no cumpla fallará... Lo nuevo seguro... y lo que ya esté? No se ele aplica el esquema
 
+db.personas.find( {"_id": ObjectId("6331d393879340d416a8f9a4")} ) // Dame una persona por ID
+db.personas.find( {"nombre": 'Trini'} )                           // Dame una persona por su nombre
+// Los de más de 40 años
+db.personas.find( { "edad": { $gte: 40 } } , { edad: 1 })         // Saca solo la edad y el _id
+                 //< ------- WHERE ----- >
+                 
+db.personas.find( { "edad": { $gte: 30 } } , { edad: 1, _id: 0 }) // Sin el _id
+
+
+db.personas.find( { "edad": { $gte: 30 } } , { edad: 0 })           // Todo menos la edad
+db.personas.find( { "edad": { $gte: 30 } } , { edad: 0 }).explain()
+
+
+// Indices
+// Shards y Replicación
