@@ -1,3 +1,4 @@
+
 // Seleccionar / Precrear la BBDD si no existe
 use cursito;
 
@@ -162,7 +163,7 @@ db.personas.find( { "edad": { $gte: 30 } } , { edad: 1, _id: 0 }) // Sin el _id
 
 db.personas.find( { "edad": { $gte: 30 } } , { edad: 0 })           // Todo menos la edad
 db.personas.find( { "edad": { $gte: 30 } } , { edad: 0 }).explain()
+db.personas.find( { "edad": { $gte: 30 } } , { edad: 0 }).sort({ nombre: 1 })
+db.personas.find( { "edad": { $gte: 30 } } , { edad: 0 }).sort({ nombre: -1 })
 
-
-// Indices
 // Shards y Replicación
